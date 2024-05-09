@@ -1,0 +1,53 @@
+int LED_PIN[] = {2, 3, 4, 5, 6, 7}; 
+ int SWITCH_PIN_1 = 8; 
+ int SWITCH_PIN_2 = 9; 
+ int DELAY_SPEED_1 = 500; 
+ int DELAY_SPEED_2 = 1000; 
+int vueltas = 3;
+
+void setup() {
+  for (int i = 0; i < 6; i++) {
+    pinMode(LED_PIN[i], OUTPUT); 
+  }
+  pinMode(SWITCH_PIN_1, INPUT_PULLUP);
+  pinMode(SWITCH_PIN_2, INPUT_PULLUP); 
+  Serial.begin(9600); 
+}
+
+void loop() {
+  if (digitalRead(SWITCH_PIN_1) == LOW) { 
+    Serial.println("Secuencia - velocidad 1");
+    autoFantastico(DELAY_SPEED_1);
+  } else if (digitalRead(SWITCH_PIN_2) == LOW) { 
+    Serial.println("Secuencia - velocidad 2");
+    autoFantastico(DELAY_SPEED_2);
+  }
+}
+
+void autoFantastico(int delaySpeed) {
+  for (int vuelta = 0; vuelta < 3; vuelta++) {
+    for (int i = 0; i < 6; i++) {
+      digitalWrite(LED_PIN[i], HIGH); 
+      delay(delaySpeed);
+      digitalWrite(LED_PIN[i], LOW); 
+    }
+    for (int i = 5; i >= 0; i--) {
+      digitalWrite(LED_PIN[i], HIGH); 
+      delay(delaySpeed);
+      digitalWrite(LED_PIN[i], LOW); 
+    }
+    vueltas++;
+    if (vueltas == 3) {
+      for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < 6; i++) {
+          digitalWrite(LED_PIN[i], HIGH); 
+        }
+        delay(500);
+        for (int i = 0; i < 6; i++) {
+          digitalWrite(LED_PIN[i], LOW); 
+        }
+        delay(500);
+      }
+    }
+  }
+}
